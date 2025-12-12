@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chùa Linh Ứng</title>
+
+    <style>
+      /* Thiết lập cơ bản cho mobile view (giữ lại) */
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        background-image: url("img/chua_linh_ung.jpg");
+        background-size: 100%;
+        background-attachment: fixed;
+      }
+
+      .page-container {
+        /* Giới hạn max-width cho mobile (sẽ thay đổi trong media query) */
+        max-width: 450px;
+        margin: 0 auto;
+        min-height: 100vh;
+        position: relative;
+        text-decoration: none;
+      }
+      /* 1. Header & Hero Section (Giữ nguyên) */
+
+      .hero-section {
+        height: 250px;
+        /* ĐƯỜNG DẪN ẢNH: Đảm bảo file chua_linh_ung.jpg cùng cấp */
+        background: url("") no-repeat center center/cover;
+        position: relative;
+        color: white;
+        text-align: center;
+      }
+
+      .header-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 15px;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
+      }
+
+      .nav-icons {
+        display: flex;
+        justify-content: space-between;
+        font-size: 20px;
+      }
+      /* 3. Footer Navigation (Chuyển thành Desktop Nav Bar trong media query) */
+
+      .footer-nav {
+        position: fixed;
+        /* Giữ fixed cho mobile */
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 450px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+        background-color: white;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px 0;
+        z-index: 1000;
+      }
+
+      .nav-item {
+        text-decoration: none;
+        color: #888;
+        padding: 10px 15px;
+        cursor: pointer;
+        text-align: center;
+        flex-grow: 1;
+        font-size: 14px;
+      }
+
+      .nav-item.active {
+        color: #1abc9c;
+        border-bottom: 2px solid #1abc9c;
+      }
+      /* 2. Main Content Section (Điều chỉnh cho mobile) */
+
+      .content-section {
+        padding: 15px;
+        padding-bottom: 80px;
+        /* Chừa chỗ cho mobile nav */
+      }
+
+      .info-card,
+      .reviews-section,
+      .intro-box,
+      .chatbot-container-full {
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-bottom: 15px;
+      }
+      /* ---------------------------------------------------- */
+      /* --------- MEDIA QUERY CHO MÀN HÌNH DESKTOP --------- */
+      /* ---------------------------------------------------- */
+
+      @media (min-width: 768px) {
+        /* Thay đổi Container Chính */
+        .page-container {
+          max-width: 100%;
+        }
+        /* Chuyển Footer thành Header Navigation Bar */
+        .footer-nav {
+          position: static;
+          max-width: 900px;
+          margin: 0 auto;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          border-radius: 0 0 8px 8px;
+          padding: 5px 0;
+        }
+        .nav-item {
+          font-size: 16px;
+          flex-grow: 0;
+          padding: 10px 30px;
+        }
+        /* Điều chỉnh Main Content */
+        .content-section {
+          max-width: 900px;
+          margin: 0 auto;
+          padding-top: 20px;
+          padding-bottom: 20px;
+        }
+        /* Styling cho Hộp bình luận mới */
+        .comment-box-container {
+          padding-top: 15px;
+          border-top: 1px solid #eee;
+          margin-top: 15px;
+        }
+        .comment-box-container h4 {
+          margin-top: 0;
+          margin-bottom: 10px;
+          font-size: 1.1em;
+        }
+        #comment-input {
+          width: 100%;
+          padding: 10px;
+          margin-bottom: 10px;
+          border-radius: 4px;
+          box-sizing: border-box;
+          /* Tính padding vào chiều rộng */
+          font-family: inherit;
+          font-size: 14px;
+        }
+        #submit-comment-button {
+          background-color: #007bff;
+          color: white;
+          border: none;
+          padding: 10px 15px;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: bold;
+          display: block;
+          /* Chiếm toàn bộ chiều ngang */
+          width: 100%;
+        }
+        #submit-comment-button:hover {
+          background-color: #007bff;
+        }
+        /* Tắt Fixed Footer Padding */
+        .content-section {
+          padding-bottom: 20px;
+        }
+        /* 1. TTCB (Thông tin Cơ bản) - Sử dụng Flexbox cho 2 cột */
+        .ttcb-desktop-layout {
+          display: flex;
+          gap: 20px;
+          align-items: flex-start;
+        }
+        .info-card {
+          /* ĐIỀU CHỈNH: Mở rộng TTCB, chiếm 2 phần */
+          flex: 3;
+          min-width: 300px;
+        }
+        .reviews-section {
+          /* ĐIỀU CHỈNH: Thu hẹp Review, chiếm 1 phần */
+          flex: 2;
+        }
+        /* Cải tiến hiển thị Biểu đồ và Lời khuyên */
+        .chart-advice-wrapper {
+          display: flex;
+          gap: 15px;
+          margin-top: 15px;
+        }
+        .chart-container {
+          flex: 1;
+          margin-top: 0;
+        }
+        .advice-section {
+          flex: 1;
+          margin-top: 0;
+        }
+        /* 2. Lịch sử - Bố cục đơn cột cho desktop */
+        .lichsu-desktop-layout {
+          display: flex;
+          gap: 30px;
+          align-items: flex-start;
+        }
+        .intro-box {
+          flex: 1;
+        }
+        /* 3. Đặt vé/Chatbot - Mở rộng khu vực chat */
+        .chatbot-container-full {
+          height: 70vh;
+        }
+      }
+      /* ------------------- STYLING KHÁC (Giữ nguyên) ------------------- */
+
+      .hidden {
+        display: none !important;
+      }
+
+      .chart-container h4 {
+        color: #007bff;
+        margin-bottom: 10px;
+        font-size: 1em;
+      }
+
+      .bar-chart {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 14px;
+      }
+
+      .bar-item {
+        display: flex;
+        align-items: center;
+      }
+
+      .bar-item span:first-child {
+        width: 40px;
+        flex-shrink: 0;
+      }
+
+      .bar {
+        height: 15px;
+        background-color: #58d8e6;
+        border-radius: 3px;
+      }
+
+      .advice-section {
+        background-color: #e6f7ff;
+        border-left: 4px solid #007bff;
+        padding: 10px 15px;
+        border-radius: 4px;
+      }
+
+      .advice-section strong {
+        color: #0056b3;
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .advice-section ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 5px 0 0 0;
+        font-size: 0.95em;
+      }
+
+      .advice-section li {
+        margin-bottom: 5px;
+        line-height: 1.4;
+      }
+
+      .review-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #eee;
+      }
+
+      .review-item:last-child {
+        border-bottom: none;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+        flex-shrink: 0;
+      }
+
+      .rating {
+        color: orange;
+        margin: 0;
+        font-size: 0.9em;
+      }
+
+      .tts-header-container {
+        display: flex;
+        align-items: center;
+        background-color: #e0e0ff;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 0 -15px 15px -15px;
+        cursor: pointer;
+      }
+
+      .tts-icon {
+        background-color: #2196f3;
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        margin-right: 15px;
+        flex-shrink: 0;
+      }
+
+      .tts-text-start-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .tts-text-start {
+        color: #007bff;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      .tts-subheader {
+        font-size: 0.8em;
+        color: #555;
+        margin-top: 3px;
+      }
+
+      #tts-status {
+        font-size: 0.9em;
+        color: #555;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 15px;
+      }
+
+      .chat-area {
+        flex-grow: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 10px 0;
+      }
+
+      .bot-message-wrapper {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .bot-avatar-small {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: url("https://via.placeholder.com/40?text=AI") no-repeat
+          center center/cover;
+        flex-shrink: 0;
+      }
+
+      .bot-message {
+        max-width: 80%;
+        background-color: #f7f0ff;
+        border: 1px solid #e0d0f5;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        line-height: 1.4;
+        align-self: flex-start;
+        cursor: pointer;
+      }
+
+      .user-message {
+        max-width: 80%;
+        background-color: #dcf8c6;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+        line-height: 1.4;
+        align-self: flex-end;
+      }
+
+      .user-response-options {
+        align-self: flex-end;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 5px;
+      }
+
+      .user-button {
+        background-color: #f5f5f5;
+        border: 1px solid #ddd;
+        color: #333;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 13px;
+        min-width: 120px;
+      }
+
+      .voice-controls {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        padding: 10px 0;
+        border-top: 1px solid #eee;
+      }
+
+      .voice-icon {
+        font-size: 24px;
+        margin-right: 10px;
+        color: #1abc9c;
+        cursor: pointer;
+      }
+
+      #chat-input {
+        flex-grow: 1;
+        padding: 8px 15px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+
+      #send-button {
+        background-color: #1abc9c;
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      /* Định dạng đẹp cho nội dung bot trả lời */
+      .highlight-box {
+        background: rgba(26, 188, 156, 0.08);
+        border-left: 4px solid #1abc9c;
+        padding: 12px 14px;
+        border-radius: 0 8px 8px 8px;
+        margin: 10px 0;
+        font-size: 14px;
+      }
+      .price {
+        font-weight: bold;
+        color: #e67e22;
+        font-size: 15px;
+      }
+      .time {
+        color: #27ae60;
+        font-weight: bold;
+      }
+      .tip {
+        font-style: italic;
+        color: #7f8c8d;
+        margin-top: 8px;
+        font-size: 13px;
+      }
+      .emoji {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page-container">
+      <header class="hero-section">
+        <div class="header-overlay">
+          <div class="nav-icons">
+            <a href="/index.html" class="back-arrow">🏠</a>
+            <a class="favorite-star">⭐</a>
+          </div>
+          <h1>Chùa Linh Ứng</h1>
+        </div>
+      </header>
+
+      <footer class="footer-nav">
+        <a href="#" class="nav-item active" data-section="ttcb-content"
+          >Thông tin cơ bản</a
+        >
+        <a href="#" class="nav-item" data-section="lichsu-content">Chi tiết</a>
+        <a href="#" class="nav-item" data-section="datve-content">Đặt vé</a>
+      </footer>
+
+      <main class="content-section" id="ttcb-content">
+        <div class="ttcb-desktop-layout">
+          <div class="info-card">
+            <h3>Thông tin cơ bản</h3>
+            <p><strong>Giá vé:</strong> Free</p>
+            <p><strong>Giờ mở cửa:</strong> 6:00 - 21:00</p>
+
+            <div class="chart-advice-wrapper">
+              <div class="chart-container">
+                <h4>Tần suất tham quan:</h4>
+                <div class="bar-chart">
+                  <div class="bar-item">
+                    <span>6h-9h</span>
+                    <div class="bar" style="width: 25%; margin-left: 5px"></div>
+                  </div>
+                  <div class="bar-item">
+                    <span>9h-14h</span>
+                    <div class="bar" style="width: 75%; margin-left: 5px"></div>
+                  </div>
+                  <div class="bar-item">
+                    <span>14h-18h</span>
+                    <div
+                      class="bar"
+                      style="width: 100%; margin-left: 5px"
+                    ></div>
+                  </div>
+                  <div class="bar-item">
+                    <span>18h-21h</span>
+                    <div class="bar" style="width: 50%; margin-left: 5px"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="advice-section">
+                <strong>Lời khuyên:</strong>
+                <ul>
+                  <li>
+                    Giờ đẹp: 07:00 - 08:00 sáng hoặc 16:30 chiều. (Tránh 11:00 -
+                    13:00).
+                  </li>
+                  <li>
+                    Lưu ý: Cẩn thận tư trang vào khung giờ 16:00 - 17:30 (Khỉ
+                    thường xuất hiện).
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-section">
+            <main class="content-section" id="ttcb-content">
+              <div class="ttcb-desktop-layout">
+                <div class="reviews-section">
+                  <h3>Bình luận người dùng</h3>
+                  <div class="comment-box-container">
+                    <textarea
+                      id="comment-input"
+                      placeholder="Viết đánh giá của bạn về Chùa Linh Ứng..."
+                      rows="4"
+                    ></textarea>
+                    <button id="submit-comment-button">Gửi Bình Luận</button>
+                  </div>
+                </div>
+              </div>
+            </main>
+            <h3>Bình luận người dùng</h3>
+            <div class="review-item">
+              <img src="user_avt/avt1.jpg" alt="Avatar A" class="avatar" />
+              <div>
+                <p class="rating">⭐⭐⭐⭐</p>
+                <p>Quá đẹp luôn ấy chứ!</p>
+              </div>
+            </div>
+            <div class="review-item">
+              <img src="user_avt/avt2.jpg" alt="Avatar B" class="avatar" />
+              <div>
+                <p class="rating">⭐⭐</p>
+                <p>Đi hơi mệt, nhưng cảnh đẹp.</p>
+              </div>
+            </div>
+            <div class="review-item">
+              <img src="user_avt/avt3.jpg" alt="Avatar C" class="avatar" />
+              <div>
+                <p class="rating">⭐⭐⭐⭐⭐</p>
+                <p>Cảnh trên cao đẹp nha.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <main class="content-section hidden" id="lichsu-content">
+        <div class="lichsu-desktop-layout">
+          <div>
+            <audio id="tts-audio" src="" preload="auto"></audio>
+
+            <div class="intro-box">
+              <div class="tts-header-container" id="tts-header">
+                <div class="tts-icon">🔊</div>
+                <div class="tts-text-start-wrapper">
+                  <h2 class="tts-text-start" id="tts-text-start">
+                    Xin chào quý du khách!
+                  </h2>
+                  <div class="tts-subheader">Lịch sử</div>
+                </div>
+              </div>
+
+              <p class="intro-text">
+                Xin chào quý khách, điểm đến của chúng ta là Chùa Linh Ứng Bãi
+                Bụt. Trong 3 ngôi chùa cùng tên Linh Ứng tại Đà Nẵng (gồm Non
+                Nước, Bà Nà và Bãi Bụt), đây là ngôi chùa to nhất, mới nhất và
+                đẹp nhất. Chùa tọa lạc ở độ cao 693m so với mực nước biển, tựa
+                lưng vào đỉnh Sơn Trà, mặt hướng ra biển Đông.
+              </p>
+
+              <h3 class="section-title">
+                I. LỊCH SỬ HÌNH THÀNH VÀ SỰ TÍCH "BÃI BỤT"
+              </h3>
+              <p>
+                Để có cơ ngơi uy nghiêm như hôm nay, nơi này gắn liền với một
+                câu chuyện lịch sử tâm linh từ thời nhà Nguyễn:
+              </p>
+              <p>
+                • Sự tích: Vào thời vua Minh Mạng (thế kỷ 19), dân chài ven biển
+                nơi đây phát hiện một pho tượng Phật không biết từ đâu trôi dạt
+                vào bãi cát. Cho rằng đây là điềm lành, dân làng đã lập am thờ
+                tự.
+              </p>
+              <p>
+                • Sự linh ứng: Từ ngày có am thờ, khu vực này sóng yên biển
+                lặng, ngư dân đi biển bình an, tôm cá đầy khoang. Từ đó, bãi cát
+                này được gọi là Bãi Bụt (nghĩa là Cõi Phật giữa chốn trần gian).
+              </p>
+              <p>
+                • Xây dựng hiện đại: Kế thừa sự tích đó, Thượng tọa Thích Thiện
+                Nguyện đã vận động phật tử xa gần quyên góp. Chùa được đặt đá
+                khởi công vào ngày 19/6/2004, ròng rã suốt 6 năm xây dựng đến
+                ngày 30/7/2010 mới chính thức khánh thành. Đây là công trình in
+                đậm dấu ấn kiến trúc Phật giáo Việt Nam thế kỷ 21.
+              </p>
+
+              <h3 class="section-title">
+                II. KIẾN TRÚC TỔNG QUAN VÀ VƯỜN LA HÁN
+              </h3>
+              <p>
+                Ngay khi bước qua cổng Tam Quan, bạn sẽ thấy một nét kiến trúc
+                rất đặc trưng:
+              </p>
+              <p>
+                • Phong cách: Chùa mang đậm nét truyền thống Á Đông với mái ngói
+                lưu ly xanh uốn cong hình rồng, những cột trụ to vững chãi được
+                bao quanh bởi rồng uốn lượn.
+              </p>
+              <p>
+                • Vườn tượng 18 vị La Hán: Dọc hai bên lối đi vào chánh điện là
+                18 pho tượng La Hán được tạc bằng đá trắng nguyên khối.
+              </p>
+              <p>
+                • Điểm đặc biệt: Quý vị hãy quan sát kỹ biểu cảm của từng pho
+                tượng. Mỗi vị một vẻ: Hỉ, Nộ, Ái, Ố. Đây chính là biểu trưng cho
+                những cung bậc cảm xúc hằng ngày của con người mà Phật giáo muốn
+                chúng ta nhìn vào để tu tâm dưỡng tính.
+              </p>
+
+              <h3 class="section-title">
+                III. CHÁNH ĐIỆN (KHU VỰC THỜ TỰ CHÍNH)
+              </h3>
+              <p>
+                • Đây là nơi trang nghiêm nhất. Chính giữa thờ Phật Thích Ca Mâu
+                Ni, bên phải thờ Quan Thế Âm Bồ Tát, bên trái thờ Địa Tạng Vương
+                Bồ Tát.
+              </p>
+              <p>
+                • Cả 3 pho tượng đều được đúc bằng đồng, tạo nên sự uy nghiêm,
+                thanh tịnh.
+              </p>
+
+              <h3 class="section-title">
+                IV ĐIỂM NHẤN QUAN TRỌNG NHẤT: TƯỢNG PHẬT QUAN THẾ ÂM CAO NHẤT
+                VIỆT NAM
+              </h3>
+              <p>
+                Bạn biết gì không?, biểu tượng của Chùa Linh Ứng và cũng là biểu
+                tượng tâm linh mới của Đà Nẵng chính là Tượng Phật Bà Quan Thế
+                Âm. Xin cung cấp đến bạn những thông số ấn tượng:
+              </p>
+              <p>
+                • Chiều cao: Tượng cao 67m (tương đương tòa nhà 30 tầng), đường
+                kính tòa sen rộng 35m. Đây được xem là tượng Phật Bà cao nhất
+                Việt Nam hiện nay.
+              </p>
+              <p>
+                • Hướng nhìn: Tượng đứng tựa lưng vào núi, đôi mắt hiền từ nhìn
+                ra biển Đông. Tay phải bắt ấn Tam Muội, tay trái cầm bình nước
+                cam lộ như đang rưới sự bình an cho những người ngư dân đang
+                vươn khơi bám biển.
+              </p>
+              <p>
+                • Kiến trúc "Phật trong lòng Phật": Điều độc đáo là trong lòng
+                tượng Phật khổng lồ này có 17 tầng. Mỗi tầng đều có bệ thờ tổng
+                cộng 21 bức tượng Phật với hình dáng, vẻ mặt, tư thế khác nhau,
+                gọi là "Phật trung hữu Phật".
+              </p>
+
+              <p class="intro-text">
+                Tôi xin được giới thiệu đến quý vị Chùa Linh Ứng – Ngũ Hành Sơn,
+                một trong những ngôi chùa linh thiêng và nổi tiếng bậc nhất Đà
+                Nẵng, vừa mang giá trị tâm linh, vừa là điểm đến văn hóa – lịch
+                sử hấp dẫn.
+              </p>
+
+              <h3 class="section-title">V. Ý NGHĨA PHONG THỦY VÀ TẦM NHÌN</h3>
+              <p>
+                • Vị thế đắc địa: Chùa Linh Ứng Bãi Bụt nằm ở vị trí đắc địa
+                nhất của bán đảo Sơn Trà. Đứng từ sân chùa, quý vị có thể phóng
+                tầm mắt nhìn thấy toàn cảnh thành phố Đà Nẵng, bãi biển Mỹ Khê
+                trải dài và xa xa là Cù Lao Chàm.
+              </p>
+              <p>
+                • Lá chắn tâm linh: Người dân Đà Nẵng tin rằng, từ khi tượng
+                Phật Bà được xây dựng (năm 2010), các cơn bão lớn khi đi vào Đà
+                Nẵng thường suy yếu hoặc chuyển hướng. Tượng Phật như một tấm lá
+                chắn tâm linh vững chãi, che chở cho thành phố trước thiên tai.
+              </p>
+              <p>
+                "Bây giờ, xin mời các bạn tự do tham quan, chiêm bái và chụp ảnh
+                lưu niệm. Và bạn nhớ đừng quên đi ra phía sau tượng Phật để ngắm
+                trọn vẹn eo biển Đà Nẵng từ trên cao. Xin cảm ơn."
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <main class="content-section hidden" id="datve-content">
+        <div class="chatbot-container-full">
+          <div class="chat-area" id="chat-area">
+            <div class="bot-message-wrapper">
+              <div class="bot-avatar-small"></div>
+              <div class="bot-message" id="initial-bot-message">
+                Chào buổi sáng bạn!
+                <br /><br />
+                Hôm nay thời tiết rất đẹp. <br /><br />
+                Bạn muốn đặt vé đến thăm Chùa Linh Ứng để tham quan không?
+              </div>
+            </div>
+
+            <div class="user-response-options">
+              <button class="user-button copy-suggestion" id="suggest-1">
+                Đặt lịch hẹn
+              </button>
+              <button class="user-button copy-suggestion" id="suggest-2">
+                Cảm ơn bạn
+              </button>
+            </div>
+          </div>
+
+          <div class="voice-controls">
+            <div class="voice-icon">🎤</div>
+            <input
+              type="text"
+              id="chat-input"
+              placeholder="Nhập câu trả lời hoặc chọn gợi ý..."
+            />
+
+            <div id="send-button">➤</div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const navItems = document.querySelectorAll(".footer-nav .nav-item");
+        const contentSections = document.querySelectorAll(".content-section");
+        const ttsAudio = document.getElementById("tts-audio");
+        const ttsStatus = document.getElementById("tts-status");
+        const ttsHeader = document.getElementById("tts-header");
+
+        // Các phần tử Chatbot
+        const initialBotMessage = document.getElementById(
+          "initial-bot-message"
+        );
+        const chatInput = document.getElementById("chat-input");
+        const suggestionButtons = document.querySelectorAll(
+          ".user-button.copy-suggestion"
+        );
+        const sendButton = document.getElementById("send-button");
+        const chatArea = document.getElementById("chat-area");
+
+        // Hàm dùng chung để copy text vào input
+        function copyToInput(element) {
+          if (chatInput) {
+            const cleanedText = element.textContent.replace(/\s+/g, " ").trim();
+            chatInput.value = cleanedText;
+            chatInput.focus();
+          }
+        }
+
+        // Hàm xử lý gửi tin nhắn (MÔ PHỎNG)
+        function sendMessage() {
+          const message = chatInput.value.trim();
+
+          if (message === "") {
+            return;
+          }
+
+          // 1. Tạo tin nhắn người dùng
+          const userMessageDiv = document.createElement("div");
+          userMessageDiv.classList.add("user-message");
+          userMessageDiv.textContent = message;
+
+          // 2. Thêm vào khu vực chat
+          chatArea.appendChild(userMessageDiv);
+
+          // 3. Xóa nội dung input
+          chatInput.value = "";
+
+          // 4. Cuộn xuống dưới cùng để xem tin nhắn mới nhất
+          chatArea.scrollTop = chatArea.scrollHeight;
+
+          // --- PHẢN HỒI MÔ PHỎNG CỦA BOT ---
+          setTimeout(() => {
+            const botResponseWrapper = document.createElement("div");
+            botResponseWrapper.classList.add("bot-message-wrapper");
+
+            const avatar = document.createElement("div");
+            avatar.classList.add("bot-avatar-small");
+            botResponseWrapper.appendChild(avatar);
+
+            const botResponse = document.createElement("div");
+            botResponse.classList.add("bot-message");
+            // Logic phản hồi mô phỏng
+            if (message.includes("Đặt lịch hẹn")) {
+              botResponse.textContent =
+                "Tuyệt vời! Bạn muốn đặt lịch cho ngày nào và mấy giờ?";
+            } else if (message.includes("Cảm ơn")) {
+              botResponse.textContent =
+                "Không có gì, tôi rất sẵn lòng phục vụ.";
+            } else {
+              botResponse.textContent =
+                "Tôi xin lỗi, hiện tại tôi chỉ hỗ trợ đặt vé và cung cấp thông tin cơ bản.";
+            }
+            botResponse.style.cursor = "default";
+            botResponseWrapper.appendChild(botResponse);
+
+            chatArea.appendChild(botResponseWrapper);
+            chatArea.scrollTop = chatArea.scrollHeight;
+          }, 500);
+        }
+
+        // --- Thiết lập Listeners ---
+
+        // 1. Chuyển đổi Tab
+        function switchTab(targetId, targetNav) {
+          contentSections.forEach((section) => section.classList.add("hidden"));
+          navItems.forEach((nav) => nav.classList.remove("active"));
+
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.remove("hidden");
+            targetNav.classList.add("active");
+          }
+        }
+
+        navItems.forEach((item) => {
+          item.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("data-section");
+            switchTab(targetId, this);
+          });
+        });
+
+        // 2. Xử lý TTS
+        if (ttsHeader) {
+          const ttsContent =
+            "Xin chào quý du khách! Tôi xin được giới thiệu đến quý vị Chùa Linh Ứng – Ngũ Hành Sơn, một trong những ngôi chùa linh thiêng và nổi tiếng bậc nhất Đà Nẵng, vừa mang giá trị tâm linh, vừa là điểm đến văn hóa – lịch sử hấp dẫn. Chùa được xây dựng vào thời vua Minh Mạng, khoảng năm 1825, và nằm trên núi Thủy Sơn.";
+
+          function generateTTSAudio(text) {
+            return "duong_dan_file_tts_thuc_te_cua_ban.mp3";
+          }
+
+          ttsHeader.addEventListener("click", function () {
+            if (ttsAudio.paused || ttsAudio.ended) {
+              ttsStatus.textContent = "Đang tải và phát thuyết minh...";
+
+              const audioUrl = generateTTSAudio(ttsContent);
+              ttsAudio.src = audioUrl;
+
+              ttsAudio.play().catch((error) => {
+                ttsStatus.textContent =
+                  "Lỗi: Không tìm thấy file MP3. Đang ở chế độ mô phỏng.";
+              });
+            } else {
+              ttsAudio.pause();
+              ttsStatus.textContent = "Đã tạm dừng.";
+            }
+          });
+
+          ttsAudio.addEventListener("ended", function () {
+            ttsStatus.textContent = "Hoàn thành thuyết minh.";
+          });
+
+          ttsAudio.addEventListener("playing", function () {
+            ttsStatus.textContent = "Đang phát...";
+          });
+        }
+
+        // 3. Xử lý Copy Gợi ý vào Text Box
+        if (initialBotMessage) {
+          initialBotMessage.addEventListener("click", function () {
+            copyToInput(this);
+          });
+        }
+        suggestionButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            copyToInput(this);
+          });
+        });
+
+        // 4. Xử lý Nút Gửi và Enter
+        if (sendButton) {
+          sendButton.addEventListener("click", sendMessage);
+        }
+        if (chatInput) {
+          chatInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              sendMessage();
+            }
+          });
+        }
+      });
+    </script>
+
+    <script type="module">
+      import { GoogleGenAI } from "https://esm.run/@google/genai";
+
+      const API_KEY = "AIzaSyCh6vSYJFL4Ccj9ur5FsTAvMsihg3lbIC4";
+      const genAI = new GoogleGenAI({ apiKey: API_KEY });
+      const modelName = "gemini-2.5-flash";
+      const SYSTEM_PROMPT = `Bạn là chatbot tư vấn du lịch thân thiện tại khu du lịch Ngũ Hành Sơn, Đà Nẵng.
+      - Giới thiệu các điểm: Vọng Hải Đài, Động Huyền Không, Động Âm Phủ, Chùa Tam Thai, Chùa Linh Ứng...
+      - Cung cấp giá vé, giờ mở cửa, cách di chuyển.
+      - Gợi ý lịch trình hợp lý cho 1 ngày hoặc nửa ngày.
+      - Luôn trả lời bằng tiếng Việt, nhiệt tình, rõ ràng, ngắn gọn.`;
+
+      const chatInput = document.getElementById("chat-input");
+      const sendButton = document.getElementById("send-button");
+      const chatArea = document.getElementById("chat-area");
+
+      // Gợi ý nhanh
+      document.querySelectorAll(".copy-suggestion").forEach((btn) => {
+        btn.onclick = () => {
+          chatInput.value = btn.textContent.trim();
+          chatInput.focus();
+        };
+      });
+
+      window.sendMessage = async function () {
+        let message = chatInput.value.trim();
+        if (!message) return;
+
+        // Tin nhắn người dùng
+        const userDiv = document.createElement("div");
+        userDiv.className = "user-message";
+        userDiv.textContent = message;
+        chatArea.appendChild(userDiv);
+        chatInput.value = "";
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        // Tin nhắn bot (placeholder)
+        const botWrapper = document.createElement("div");
+        botWrapper.className = "bot-message-wrapper";
+        botWrapper.innerHTML = `<div class="bot-avatar-small"></div><div class="bot-message">Đang suy nghĩ 🤔 </div>`;
+        chatArea.appendChild(botWrapper);
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        try {
+          const fullPrompt = SYSTEM_PROMPT + "\n\nNgười dùng: " + message;
+          const result = await genAI.models.generateContent({
+            model: modelName,
+            contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+          });
+
+          // Tự động làm đẹp nội dung trả về
+          let text = result.text
+            .replace(/giá vé/gi, '<strong class="price">Giá vé</strong>')
+            .replace(/mở cửa/gi, '<strong class="time">Mở cửa</strong>')
+            .replace(/lịch trình/gi, "<strong>Lịch trình gợi ý</strong>")
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\n\n/g, '</p><p style="margin:10px 0;">')
+            .replace(/\n/g, "<br>");
+
+          // Thêm box highlight nếu có thông tin quan trọng
+          if (text.includes("Giá vé") || text.includes("mở cửa")) {
+            text = `<div class="highlight-box">${text}</div>`;
+          }
+
+          botWrapper.querySelector(".bot-message").innerHTML = text;
+        } catch (err) {
+          console.error(err);
+          botWrapper.querySelector(".bot-message").innerHTML =
+            "Oops! Mình hơi mệt tí, bạn thử lại sau 10 giây nhé ❤️";
+        }
+        chatArea.scrollTop = chatArea.scrollHeight;
+      };
+
+      sendButton.addEventListener("click", window.sendMessage);
+      chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          window.sendMessage();
+        }
+      });
+    </script>
+  </body>
+</html>

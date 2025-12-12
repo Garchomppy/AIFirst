@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chọn điểm đến</title>
+    <style>
+      /* Import font chữ tương tự (Quicksand cho nét bo tròn) */
+
+      @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap");
+      :root {
+        --primary-color: #5fb8c2;
+        /* Màu xanh ngọc của tiêu đề */
+        --bg-color: #f9f9f9;
+        /* Màu nền tổng thể */
+        --btn-bg: #fff0f0;
+        /* Màu nền nút hồng nhạt */
+        --btn-border: #bcaaaa;
+        /* Màu viền nét đứt */
+        --text-color: #000;
+      }
+
+      body {
+        font-family: "Quicksand", sans-serif;
+        background-color: var(--bg-color);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 400px;
+        /* Giới hạn chiều rộng giống giao diện mobile */
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: var(--bg-color);
+      }
+      /* Nút Bỏ qua */
+
+      .skip-link {
+        display: block;
+        text-align: right;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-size: 16px;
+        margin-bottom: 20px;
+        cursor: pointer;
+      }
+      /* Tiêu đề chính */
+
+      .title {
+        color: var(--primary-color);
+        text-align: center;
+        font-size: 24px;
+        font-weight: 800;
+        line-height: 1.4;
+        margin-bottom: 30px;
+      }
+      /* Lưới các nút lựa chọn */
+
+      .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        /* 2 cột */
+        gap: 20px;
+        /* Khoảng cách giữa các nút */
+        margin-bottom: 40px;
+      }
+
+      .option-btn {
+        background-color: var(--btn-bg);
+        border: 1.5px dotted var(--btn-border);
+        border-radius: 12px;
+        padding: 10px;
+        font-family: "Quicksand", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      /* Hiệu ứng khi di chuột hoặc chọn */
+
+      .option-btn:hover,
+      .option-btn.active {
+        background-color: #ffe0e0;
+        border-color: var(--primary-color);
+      }
+      /* Nút Tiếp tục */
+
+      .continue-btn {
+        display: block;
+        width: 80%;
+        margin: 0 auto;
+        background-color: var(--btn-bg);
+        border: 2px dashed var(--btn-border);
+        /* Nét đứt đậm hơn */
+        border-radius: 20px;
+        padding: 15px;
+        font-family: "Quicksand", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--primary-color);
+        cursor: pointer;
+        transition: transform 0.1s;
+        text-decoration: none;
+        text-align: center;
+      }
+
+      .continue-btn:active {
+        transform: scale(0.98);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <a href="/index.html" class="skip-link">Bỏ qua</a>
+
+      <h1 class="title">Bạn muốn điểm đến hôm nay hướng đến:</h1>
+
+      <div class="options-grid">
+        <button class="option-btn">Sức khỏe</button>
+        <button class="option-btn">Vận động</button>
+        <button class="option-btn">Mát mẻ</button>
+        <button class="option-btn">Chill</button>
+        <button class="option-btn">Phiêu lưu</button>
+        <button class="option-btn">Cảm giác mạnh</button>
+        <button class="option-btn">Vui chơi</button>
+        <button class="option-btn">Lãng mạn</button>
+        <button class="option-btn">Sống ảo</button>
+        <button class="option-btn">Leo núi</button>
+        <button class="option-btn">Lịch sử</button>
+        <button class="option-btn">Trị liệu</button>
+        <button class="option-btn">Lễ hội</button>
+        <button class="option-btn">Thức ăn</button>
+      </div>
+
+      <a class="continue-btn" href="/index.html">Tiếp tục</a>
+    </div>
+
+    <script>
+      const buttons = document.querySelectorAll(".option-btn");
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("active");
+          // Nếu muốn chỉ chọn 1 cái thì dùng logic khác, ở đây đang cho phép chọn nhiều
+        });
+      });
+    </script>
+  </body>
+</html>

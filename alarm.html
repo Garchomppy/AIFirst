@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông báo - Modern Nature</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-color: #006d77;
+        --secondary-color: #83c5be;
+        --accent-color: #e76f51;
+        --bg-body: #edf6f9;
+        --bg-white: #ffffff;
+        --text-main: #2b2d42;
+        --text-light: #8d99ae;
+        --header-height: 80px;
+        --border-radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Quicksand", sans-serif;
+        background: var(--bg-body);
+        color: var(--text-main);
+      }
+
+      /* -------------------------------------------------------
+            HEADER CỐ ĐỊNH - GIỮ NGUYÊN PHONG CÁCH BẠN GỬI
+        --------------------------------------------------------*/
+      .fixed-top-bar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: var(--header-height);
+        background: var(--bg-white);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+      }
+
+      .header-grid {
+        display: grid;
+        grid-template-columns: 4fr 3fr 5fr;
+        height: 100%;
+        align-items: center;
+        padding: 0 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .nav-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px 12px;
+        text-decoration: none;
+        font-weight: 600;
+        color: var(--text-light);
+        border-radius: 10px;
+        width: 133px;
+        transition: 0.3s;
+      }
+
+      .nav-item span {
+        margin-right: 6px;
+        font-size: 20px;
+      }
+
+      .nav-item:hover,
+      .nav-item.active {
+        background: rgba(131, 197, 190, 0.2);
+        color: var(--primary-color);
+      }
+
+      .header-right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .search-bar {
+        flex-grow: 1;
+        position: relative;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 12px 45px 12px 20px;
+        border-radius: 50px;
+        border: 2px solid transparent;
+        background: #f1f5f8;
+        outline: none;
+        transition: 0.3s;
+      }
+
+      .search-bar input:focus {
+        background: #ffffff;
+        border-color: var(--secondary-color);
+      }
+
+      .search-bar::after {
+        content: "🔍";
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0.6;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid var(--primary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .menu-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f1f5f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      /* -------------------------------------------------------
+            NỘI DUNG THÔNG BÁO
+        --------------------------------------------------------*/
+      .content {
+        max-width: 850px;
+        margin: calc(var(--header-height) + 30px) auto 50px;
+        padding: 0 20px;
+      }
+
+      .section-title {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        position: relative;
+        display: inline-block;
+      }
+
+      .section-title::after {
+        content: "";
+        width: 50px;
+        height: 4px;
+        background: var(--accent-color);
+        border-radius: 3px;
+        position: absolute;
+        left: 0;
+        bottom: -6px;
+      }
+
+      /* Card thông báo */
+      .notif-card {
+        background: var(--bg-white);
+        padding: 18px 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 18px;
+        display: flex;
+        gap: 14px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+        border-left: 6px solid transparent;
+      }
+
+      .notif-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .notif-icon {
+        font-size: 28px;
+        color: var(--primary-color);
+        min-width: 40px;
+        text-align: center;
+      }
+
+      .notif-content h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--primary-color);
+      }
+
+      .notif-content p {
+        margin: 4px 0 0;
+        color: var(--text-light);
+        font-size: 14px;
+      }
+
+      .notif-time {
+        font-size: 12px;
+        margin-top: 6px;
+        color: var(--text-light);
+      }
+
+      /* Badge mới */
+      .badge-new {
+        background: var(--accent-color);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        color: white;
+        margin-left: auto;
+        height: fit-content;
+        align-self: center;
+        font-weight: 700;
+      }
+
+      /* Thông báo chưa đọc */
+      .notif-unread {
+        border-left-color: var(--accent-color);
+        background: #fff4f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <div class="fixed-top-bar">
+      <div class="header-grid">
+        <div class="header-left">
+          <a class="nav-item" href="/index.html"><span>🏠</span>Trang chủ</a>
+          <a class="nav-item active" href="/notifications.html"
+            ><span>🔔</span>Thông báo</a
+          >
+          <a class="nav-item" href="/plan.html"><span>📅</span>Lịch</a>
+          <a class="nav-item" href="/feed.html"><span>👤</span>Feed</a>
+        </div>
+
+        <div class="header-middle"></div>
+
+        <div class="header-right">
+          <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm thông báo..." />
+          </div>
+          <a class="avatar" href="/profile.html"
+            ><img src="./detail/img/avt.jpg" alt="" width="45px"
+          /></a>
+          <div class="menu-icon">☰</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="section-title">Thông báo của bạn</div>
+
+      <!-- THÔNG BÁO MỚI -->
+      <div class="notif-card notif-unread">
+        <div class="notif-icon">❤️</div>
+        <div class="notif-content">
+          <h4>Ai đó đã thích bài viết của bạn!</h4>
+          <p>Bài viết “Khám phá Động Tàng Chơn” nhận được 1 lượt thích mới.</p>
+          <div class="notif-time">3 phút trước</div>
+        </div>
+        <div class="badge-new">Mới</div>
+      </div>
+
+      <div class="notif-card notif-unread">
+        <div class="notif-icon">💬</div>
+        <div class="notif-content">
+          <h4>Bạn có bình luận mới</h4>
+          <p>
+            Người dùng <b>Minh Hòa</b> đã bình luận vào bài “Chùa Linh Ứng”.
+          </p>
+          <div class="notif-time">10 phút trước</div>
+        </div>
+        <div class="badge-new">Mới</div>
+      </div>
+
+      <!-- THÔNG BÁO CŨ -->
+      <div class="notif-card">
+        <div class="notif-icon">👥</div>
+        <div class="notif-content">
+          <h4>Có người bắt đầu theo dõi bạn</h4>
+          <p>Người dùng <b>Hữu Hưng</b> đã follow bạn.</p>
+          <div class="notif-time">1 giờ trước</div>
+        </div>
+      </div>
+
+      <div class="notif-card">
+        <div class="notif-icon">📸</div>
+        <div class="notif-content">
+          <h4>Ảnh của bạn đang được nhiều người xem</h4>
+          <p>
+            Bài đăng “Check-in ở Vọng Hải Đài” đang nhận được nhiều lượt truy
+            cập.
+          </p>
+          <div class="notif-time">Hôm qua</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
