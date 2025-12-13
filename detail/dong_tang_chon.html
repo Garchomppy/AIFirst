@@ -489,7 +489,7 @@
       <header class="hero-section">
         <div class="header-overlay">
           <div class="nav-icons">
-            <a href="/index.html" class="back-arrow">🏠</a>
+            <a href="/mainsite.html" class="back-arrow">🏠</a>
             <a class="favorite-star">⭐</a>
           </div>
           <h1>Động Tàng Chơn</h1>
@@ -600,7 +600,9 @@
                   <h2 class="tts-text-start" id="tts-text-start">
                     Xin chào quý du khách!
                   </h2>
-                  <div class="tts-subheader">Lịch sử</div>
+                  <div class="tts-subheader">
+                    <audio src="./audio/động tàng chơn.mp3" controls></audio>>
+                  </div>
                 </div>
               </div>
 
@@ -981,7 +983,7 @@
         } catch (err) {
           console.error(err);
           botWrapper.querySelector(".bot-message").innerHTML =
-            "Oops! Mình hơi mệt tí, bạn thử lại sau 10 giây nhé <span>Heart</span>";
+            "Oops! Mình hơi mệt tí, bạn thử lại sau 10 giây nhé ❤️";
         }
         chatArea.scrollTop = chatArea.scrollHeight;
       };
