@@ -1,572 +1,520 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Địa điểm tham quan</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-      /* =========================================
+        /* =========================================
            1. CÀI ĐẶT CHUNG & BIẾN MÀU SẮC
            ========================================= */
-      :root {
-        /* Bảng màu Modern Nature (Teal & Burnt Orange) */
-        --primary-color: #006d77; /* Xanh cổ vịt đậm */
-        --secondary-color: #83c5be; /* Xanh ngọc nhạt */
-        --accent-color: #e76f51; /* Cam đất (Điểm nhấn) */
-        --bg-body: #edf6f9; /* Nền trang */
-        --bg-white: #ffffff; /* Nền trắng */
+        :root {
+            /* Bảng màu Modern Nature (Teal & Burnt Orange) */
+            --primary-color: #006D77;      /* Xanh cổ vịt đậm */
+            --secondary-color: #83C5BE;    /* Xanh ngọc nhạt */
+            --accent-color: #E76F51;       /* Cam đất (Điểm nhấn) */
+            --bg-body: #EDF6F9;            /* Nền trang */
+            --bg-white: #FFFFFF;           /* Nền trắng */
+            
+            --text-main: #2B2D42;          /* Chữ chính */
+            --text-light: #8D99AE;         /* Chữ phụ */
+            
+            --header-height: 80px;
+            --border-radius: 16px;
+        }
 
-        --text-main: #2b2d42; /* Chữ chính */
-        --text-light: #8d99ae; /* Chữ phụ */
+        * { box-sizing: border-box; }
 
-        --header-height: 80px;
-        --border-radius: 16px;
-      }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-main);
+            background-color: #EDF6F9; /* Màu nền gốc */
+            position: relative;
+            min-height: 100vh;
+        }
 
-      * {
-        box-sizing: border-box;
-      }
+        /* Tạo lớp phủ nhiễu hạt (Noise) giả lập giấy */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Dùng url ảnh noise base64 trong suốt */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none; /* Để chuột vẫn bấm được nội dung bên dưới */
+            z-index: -1;
+        }
 
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Quicksand", sans-serif;
-        color: var(--text-main);
-        background-color: #edf6f9; /* Màu nền gốc */
-        position: relative;
-        min-height: 100vh;
-      }
-
-      /* Tạo lớp phủ nhiễu hạt (Noise) giả lập giấy */
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        /* Dùng url ảnh noise base64 trong suốt */
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-        pointer-events: none; /* Để chuột vẫn bấm được nội dung bên dưới */
-        z-index: -1;
-      }
-
-      /* =========================================
+        /* =========================================
            2. HEADER (GRID SYSTEM)
            ========================================= */
-      .fixed-top-bar {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        height: var(--header-height);
-        background: var(--bg-white);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        z-index: 1000;
-      }
+        .fixed-top-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: var(--bg-white);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+        }
 
-      .header-grid {
-        display: grid;
-        grid-template-columns: 4fr 3fr 5fr; /* 4 phần Navbar - 3 phần Trống - 5 phần Search */
-        height: 100%;
-        align-items: center;
-        padding: 0 30px;
-        max-width: 1400px;
-        margin: 0 auto;
-      }
+        .header-grid {
+            display: grid;
+            grid-template-columns: 4fr 3fr 5fr; /* 4 phần Navbar - 3 phần Trống - 5 phần Search */
+            height: 100%;
+            align-items: center;
+            padding: 0 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-      /* Header Left: Navbar */
-      .header-left {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-      }
+        /* Header Left: Navbar */
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-      .nav-item {
-        display: flex;
-        text-decoration: none;
-        align-items: center;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: 600;
-        color: var(--text-light);
-        padding: 8px 12px;
-        border-radius: 10px;
-        transition: 0.3s;
-        width: 133px;
-        justify-content: center;
-      }
+        .nav-item {
+            display: flex;
+            text-decoration: none;
+            align-items: center;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-light);
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: 0.3s;
+            width: 133px;
+            justify-content: center;
+        }
 
-      .nav-item span {
-        font-size: 20px;
-        margin-right: 6px;
-      }
+        .nav-item span { font-size: 20px; margin-right: 6px; }
+        
+        .nav-item:hover, .nav-item.active {
+            color: var(--primary-color);
+            background: rgba(131, 197, 190, 0.2);
+        }
 
-      .nav-item:hover,
-      .nav-item.active {
-        color: var(--primary-color);
-        background: rgba(131, 197, 190, 0.2);
-      }
+        /* Header Right: Search & User */
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+        }
 
-      /* Header Right: Search & User */
-      .header-right {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 15px;
-      }
+        .search-bar {
+            flex-grow: 1;
+            position: relative;
+        }
 
-      .search-bar {
-        flex-grow: 1;
-        position: relative;
-      }
+        .search-bar input {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            border-radius: 50px;
+            border: 2px solid transparent;
+            background: #F1F5F8;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
 
-      .search-bar input {
-        width: 100%;
-        padding: 12px 45px 12px 20px;
-        border-radius: 50px;
-        border: 2px solid transparent;
-        background: #f1f5f8;
-        font-size: 14px;
-        outline: none;
-        transition: 0.3s;
-      }
+        .search-bar input:focus {
+            background: #FFF;
+            border-color: var(--secondary-color);
+            box-shadow: 0 4px 10px rgba(131, 197, 190, 0.2);
+        }
 
-      .search-bar input:focus {
-        background: #fff;
-        border-color: var(--secondary-color);
-        box-shadow: 0 4px 10px rgba(131, 197, 190, 0.2);
-      }
+        .search-bar::after {
+            content: "🔍";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
 
-      .search-bar::after {
-        content: "🔍";
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 0.6;
-      }
+        .avatar, .menu-icon {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: 0.3s; flex-shrink: 0;
+        }
 
-      .avatar,
-      .menu-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: 0.3s;
-        flex-shrink: 0;
-      }
+        .avatar { background: white; border: 2px solid var(--primary-color); color: var(--primary-color); font-weight: 700; }
+        .menu-icon { background: #F1F5F8; }
+        .avatar:hover, .menu-icon:hover { transform: scale(1.1); }
 
-      .avatar {
-        background: white;
-        border: 2px solid var(--primary-color);
-        color: var(--primary-color);
-        font-weight: 700;
-      }
-      .menu-icon {
-        background: #f1f5f8;
-      }
-      .avatar:hover,
-      .menu-icon:hover {
-        transform: scale(1.1);
-      }
-
-      /* =========================================
+        /* =========================================
            3. CONTENT
            ========================================= */
-      .content {
-        max-width: 1200px;
-        margin: calc(var(--header-height) + 40px) auto 60px auto;
-        padding: 0 20px;
-      }
+        .content {
+            max-width: 1200px;
+            margin: calc(var(--header-height) + 40px) auto 60px auto;
+            padding: 0 20px;
+        }
 
-      .section-heading {
-        font-size: 26px;
-        font-weight: 800;
-        color: var(--primary-color);
-        margin-bottom: 25px;
-        position: relative;
-        display: inline-block;
-      }
+        .section-heading {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-heading::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 50px; height: 4px; background: var(--accent-color); border-radius: 2px;
+        }
 
-      .section-heading::after {
-        content: "";
-        position: absolute;
-        bottom: -5px;
-        left: 0;
-        width: 50px;
-        height: 4px;
-        background: var(--accent-color);
-        border-radius: 2px;
-      }
-
-      /* =========================================
+        /* =========================================
            4. SLIDER (CAROUSEL)
            ========================================= */
-      .slider-viewport {
-        width: 100%;
-        overflow: hidden;
-        border-radius: var(--border-radius);
-        margin-bottom: 50px;
-        box-shadow: 0 10px 30px rgba(0, 109, 119, 0.15);
-        position: relative;
-      }
+        .slider-viewport {
+            width: 100%;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0, 109, 119, 0.15);
+            position: relative;
+        }
 
-      .slider-track {
-        display: flex;
-        width: 100%;
-      }
+        .slider-track {
+            display: flex;
+            width: 100%;
+        }
 
-      .slider-item {
-        flex: 0 0 50%; /* Hiển thị 2 ảnh một lúc */
-        height: 280px;
-        position: relative;
-        padding-right: 4px; /* Khoảng hở nhỏ giữa 2 ảnh */
-        flex-shrink: 0; /* Đảm bảo không bị co lại */
-      }
+        .slider-item {
+            flex: 0 0 50%; /* Hiển thị 2 ảnh một lúc */
+            height: 280px;
+            position: relative;
+            padding-right: 4px; /* Khoảng hở nhỏ giữa 2 ảnh */
+            flex-shrink: 0; /* Đảm bảo không bị co lại */
+        }
 
-      .slider-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
+        .slider-item img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-      .hot-label {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        background: var(--accent-color);
-        color: white;
-        padding: 6px 15px;
-        border-radius: 20px;
-        font-size: 13px;
-        font-weight: 700;
-        box-shadow: 0 4px 10px rgba(231, 111, 81, 0.4);
-      }
+        .hot-label {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            background: var(--accent-color);
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 13px; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(231, 111, 81, 0.4);
+        }
 
-      /* =========================================
+        /* =========================================
            5. DANH MỤC & CARD
            ========================================= */
-      .category-header {
-        display: inline-block;
-        font-size: 18px;
-        font-weight: 700;
-        color: var(--primary-color);
-        background: var(--bg-white);
-        padding: 10px 25px;
-        border-radius: 50px;
-        margin: 30px 0 20px 0;
-        border: 1px solid var(--secondary-color);
-      }
+        .category-header {
+            display: inline-block;
+            font-size: 18px; font-weight: 700;
+            color: var(--primary-color);
+            background: var(--bg-white);
+            padding: 10px 25px;
+            border-radius: 50px;
+            margin: 30px 0 20px 0;
+            border: 1px solid var(--secondary-color);
+        }
 
-      .place-list {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 25px;
-      }
+        .place-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+        }
 
-      .place-card {
-        background: var(--bg-white);
-        padding: 15px;
-        border-radius: var(--border-radius);
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
+        .place-card {
+            background: var(--bg-white);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
 
-      .place-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 15px 30px rgba(0, 109, 119, 0.1);
-      }
+        .place-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 109, 119, 0.1);
+        }
 
-      .place-card img {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-        border-radius: 12px;
-        margin-bottom: 12px;
-      }
+        .place-card img {
+            width: 100%; height: 160px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
 
-      .place-card h4 {
-        margin: 0 0 5px 0;
-        font-size: 17px;
-        color: var(--text-main);
-        font-weight: 700;
-      }
+        .place-card h4 {
+            margin: 0 0 5px 0;
+            font-size: 17px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
 
-      .place-card .price {
-        color: var(--accent-color);
-        font-weight: 700;
-        font-size: 15px;
-        margin-bottom: 5px;
-        display: block;
-      }
+        .place-card .price {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 15px;
+            margin-bottom: 5px;
+            display: block;
+        }
 
-      .place-card p:last-child {
-        color: var(--text-light);
-        font-size: 13px;
-        margin: 0;
-      }
+        .place-card p:last-child {
+            color: var(--text-light);
+            font-size: 13px;
+            margin: 0;
+        }
+
+        
+
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
+
     <div class="fixed-top-bar">
-      <div class="header-grid">
-        <div class="header-left">
-          <a class="nav-item active" href="#"><span>🏠</span> Trang chủ</a>
-          <a class="nav-item" href="./feed.html"><span>🔔</span> Thông báo</a>
-          <a class="nav-item" href="./plan.html"><span>📅</span> Lịch</a>
-          <a class="nav-item" href="./feed.html"><span>👤</span> Feed</a>
-        </div>
+        <div class="header-grid">
+            
+            <div class="header-left">
+                <a class="nav-item active" href="#"><span>🏠</span> Trang chủ</a>
+                <a class="nav-item" href="/alarm.html"><span>🔔</span> Thông báo</a>
+                <a class="nav-item" href="/plan.html"><span>📅</span> Lịch</a>
+                <a class="nav-item" href="/feed.html"><span>👤</span> Feed</a>
+            </div>
 
-        <div class="header-middle"></div>
+            <div class="header-middle"></div>
 
-        <div class="header-right">
-          <div class="search-bar">
-            <input type="text" placeholder="Tìm kiếm địa điểm..." />
-          </div>
-          <a class="avatar" href="./profile.html"><span>👤</span> </a>
-          <div class="menu-icon">☰</div>
+            <div class="header-right">
+                <div class="search-bar">
+                    <input type="text" placeholder="Tìm kiếm địa điểm...">
+                </div>
+                <a class="avatar" href="/profile.html"><span>👤</span> </a>
+                <div class="menu-icon">☰</div>
+            </div>
+
         </div>
-      </div>
     </div>
 
     <div class="content">
-      <div class="section-heading">Địa điểm Hot tháng 12</div>
 
-      <div class="slider-viewport">
-        <div class="slider-track" id="sliderTrack">
-          <div class="slider-item">
-            <img src="./detail/img/chua_linh_ung.jpg" alt="" />
-            <div class="hot-label">Chùa Linh Ứng (Sơn Trà)</div>
-          </div>
+        <div class="section-heading">Địa điểm Hot tháng 12</div>
 
-          <div class="slider-item">
-            <img src="./detail/img/dong_tang_chon.jpeg" alt="" />
-            <div class="hot-label">Động Tàng Chơn (NHS)</div>
-          </div>
+        <div class="slider-viewport">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slider-item">
+                    <img src="./detail/img/chua_linh_ung.jpg" alt="">
+                    <div class="hot-label">Chùa Linh Ứng (Sơn Trà)</div>
+                </div>
 
-          <div class="slider-item">
-            <img src="./detail/img/chua_quan_the_am.jpg" alt="" />
-            <div class="hot-label">Chùa Quán Thế Âm</div>
-          </div>
+                <div class="slider-item">
+                    <img src="./detail/img/dong_tang_chon.jpeg" alt="">
+                    <div class="hot-label">Động Tàng Chơn (NHS)</div>
+                </div>
 
-          <div class="slider-item">
-            <img src="./detail/img/vong_hai_dai.png" alt="" />
-            <div class="hot-label">Vọng Hải Đài</div>
-          </div>
-        </div>
-      </div>
+                <div class="slider-item">
+                    <img src="./detail/img/chua_quan_the_am.jpg" alt="">
+                    <div class="hot-label">Chùa Quán Thế Âm</div>
+                </div>
 
-      <div style="display: flex; gap: 20px; margin: 20px 0 10px 0">
-        <!-- CỘT TRÁI: Ngày lễ -->
-        <div
-          style="
-            flex: 1;
-            background: var(--bg-white);
-            padding: 15px 20px;
-            border-radius: 20px;
-            border: 1px solid var(--secondary-color);
-            box-shadow: 0 6px 18px rgba(0, 109, 119, 0.06);
-            height: fit-content;
-          "
-        >
-          <h3
-            style="
-              margin: 0 0 10px 0;
-              font-size: 20px;
-              font-weight: 800;
-              color: var(--primary-color);
-            "
-          >
-            🎉 Ngày lễ trong tháng 12
-          </h3>
-
-          <ul
-            style="
-              margin: 0;
-              padding-left: 18px;
-              font-size: 15px;
-              color: var(--text-main);
-            "
-          >
-            <li><strong>24/12</strong> – Đêm Giáng Sinh (Christmas Eve)</li>
-            <li><strong>25/12</strong> – Giáng Sinh (Christmas Day)</li>
-            <li><strong>31/12</strong> – Giao thừa Quốc tế (New Year’s Eve)</li>
-          </ul>
+                <div class="slider-item">
+                    <img src="./detail/img/vong_hai_dai.png" alt="">
+                    <div class="hot-label">Vọng Hải Đài</div>
+                </div>
+            </div>
         </div>
 
-        <!-- CỘT PHẢI: Lịch trình đã thêm -->
-        <div
-          id="monthly-schedule-box"
-          style="
-            flex: 1;
-            background: #f8ffff;
-            border: 1px solid #cbeaed;
-            border-radius: 16px;
-            padding: 15px 20px;
-            height: fit-content;
-            box-shadow: 0 6px 18px rgba(0, 109, 119, 0.06);
-          "
-        >
-          <h3
-            style="
-              margin: 0 0 10px 0;
-              font-size: 18px;
-              font-weight: bold;
-              color: #008b8b;
-            "
-          >
-            📘 Lịch trình đã thêm trong tháng
-          </h3>
+        <div style="
+            display: flex;
+            gap: 20px;
+            margin: 20px 0 10px 0;
+        ">
 
-          <div
-            id="monthly-schedule-list"
-            style="font-size: 14px; line-height: 1.5"
-          >
-            <p style="opacity: 0.6">Chưa có lịch trình nào được thêm.</p>
-          </div>
-        </div>
-      </div>
+            <!-- CỘT TRÁI: Ngày lễ -->
+            <div style="
+                flex: 1;
+                background: var(--bg-white);
+                padding: 15px 20px;
+                border-radius: 20px;
+                border: 1px solid var(--secondary-color);
+                box-shadow: 0 6px 18px rgba(0,109,119,0.06);
+                height: fit-content;
+            ">
 
-      <div class="category-header">Tâm linh</div>
+                <h3 style="
+                    margin: 0 0 10px 0;
+                    font-size: 20px;
+                    font-weight: 800;
+                    color: var(--primary-color);
+                ">
+                    🎉 Ngày lễ trong tháng 12
+                </h3>
 
-      <div class="place-list">
-        <div class="place-card">
-          <a href="./detail/chua_linh_ung.html"
-            ><img src="./detail/img/chua_linh_ung.jpg"
-          /></a>
-          <h4>Chùa Linh Ứng</h4>
-          <span class="price">Miễn phí</span>
-          <p>📍 Sơn Trà, Đà Nẵng</p>
-        </div>
-        <div class="place-card">
-          <a href="./detail/chua_quan_the_am.html"
-            ><img src="./detail/img/chua_quan_the_am.jpg"
-          /></a>
-          <h4>Chùa Quán Thế Âm</h4>
-          <span class="price">Miễn phí</span>
-          <p>📍 Hòa Hải, Ngũ Hành Sơn</p>
-        </div>
-      </div>
+                <ul style="margin: 0; padding-left: 18px; font-size: 15px; color: var(--text-main);">
+                    <li><strong>24/12</strong> – Đêm Giáng Sinh (Christmas Eve)</li>
+                    <li><strong>25/12</strong> – Giáng Sinh (Christmas Day)</li>
+                    <li><strong>31/12</strong> – Giao thừa Quốc tế (New Year’s Eve)</li>
+                </ul>
 
-      <div class="category-header">Leo núi</div>
+            </div>
 
-      <div class="place-list">
-        <div class="place-card">
-          <a href="./detail/vong_hai_dai.html"
-            ><img src="./detail/img/vong_hai_dai.png"
-          /></a>
-          <h4>Vọng Hải Đài</h4>
-          <span class="price">10-40k</span>
-          <p>📍 Ngũ Hành Sơn</p>
+            <!-- CỘT PHẢI: Lịch trình đã thêm -->
+            <div id="monthly-schedule-box" style="
+                flex: 1;
+                background: #f8ffff;
+                border: 1px solid #cbeaed;
+                border-radius: 16px;
+                padding: 15px 20px;
+                height: fit-content;
+                box-shadow: 0 6px 18px rgba(0,109,119,0.06);
+            ">
+                <h3 style="
+                    margin: 0 0 10px 0;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: #008B8B;
+                ">📘 Lịch trình đã thêm trong tháng</h3>
+
+                <div id="monthly-schedule-list" style="font-size: 14px; line-height: 1.5;">
+                    <p style="opacity: 0.6;">Chưa có lịch trình nào được thêm.</p>
+                </div>
+            </div>
+
         </div>
-        <div class="place-card">
-          <a href="./detail/chua_linh_ung.html"
-            ><img src="./detail/img/chua_linh_ung.jpg"
-          /></a>
-          <h4>Chùa Linh Ứng</h4>
-          <span class="price">Miễn phí</span>
-          <p>📍 Sơn Trà, Đà Nẵng</p>
+
+        <div class="category-header">Tâm linh</div>
+
+        <div class="place-list">
+            <div class="place-card">
+                <a href="/detail/chua_linh_ung.html"><img src="./detail/img/chua_linh_ung.jpg"></a>
+                <h4>Chùa Linh Ứng</h4>
+                <span class="price">Miễn phí</span>
+                <p>📍 Sơn Trà, Đà Nẵng</p>
+            </div>
+            <div class="place-card">
+                <a href="/detail/chua_quan_the_am.html"><img src="./detail/img/chua_quan_the_am.jpg"></a>
+                <h4>Chùa Quán Thế Âm</h4>
+                <span class="price">Miễn phí</span>
+                <p>📍 Hòa Hải, Ngũ Hành Sơn</p>
+            </div>
         </div>
-        <div class="place-card">
-          <a href="./detail/dong_tang_chon.html"
-            ><img src="./detail/img/dong_tang_chon.jpeg"
-          /></a>
-          <h4>Động Tàng Chơn</h4>
-          <span class="price">Miễn phí</span>
-          <p>📍 Ngũ Hành Sơn</p>
+
+        <div class="category-header">Leo núi</div>
+
+        <div class="place-list">
+            <div class="place-card">
+                <a href="/detail/vong_hai_dai.html"><img src="./detail/img/vong_hai_dai.png"></a>
+                <h4>Vọng Hải Đài</h4>
+                <span class="price">10-40k</span>
+                <p>📍 Ngũ Hành Sơn</p>
+            </div>
+            <div class="place-card">
+                <a href="/detail/chua_linh_ung.html"><img src="./detail/img/chua_linh_ung.jpg"></a>
+                <h4>Chùa Linh Ứng</h4>
+                <span class="price">Miễn phí</span>
+                <p>📍 Sơn Trà, Đà Nẵng</p>
+            </div>
+            <div class="place-card">
+                <a href="/detail/dong_tang_chon.html"><img src="./detail/img/dong_tang_chon.jpeg"></a>
+                <h4>Động Tàng Chơn</h4>
+                <span class="price">Miễn phí</span>
+                <p>📍 Ngũ Hành Sơn</p>
+            </div>
         </div>
-      </div>
+
     </div>
 
     <script>
-      const track = document.getElementById("sliderTrack");
-
-      function moveSlider() {
-        // Thêm hiệu ứng chuyển động
-        track.style.transition = "transform 0.8s ease-in-out";
-        // Dịch sang trái 50% (tương ứng 1 hình)
-        track.style.transform = "translateX(-50%)";
-      }
-
-      track.addEventListener("transitionend", () => {
-        // Khi chạy xong, đưa hình đầu tiên xuống cuối
-        track.appendChild(track.firstElementChild);
-        // Reset vị trí ngay lập tức (không có hiệu ứng)
-        track.style.transition = "none";
-        track.style.transform = "translateX(0)";
-
-        // Buộc trình duyệt vẽ lại (Reflow) để nhận transition lần sau
-        setTimeout(() => {
-          track.style.transition = "transform 0.8s ease-in-out";
-        });
-      });
-
-      // Chạy tự động mỗi 3.5 giây
-      setInterval(moveSlider, 3500);
-
-      // Object lưu toàn bộ lịch của tháng
-      let monthlySchedules = JSON.parse(
-        localStorage.getItem("schedules") || "{}"
-      );
-
-      // Cập nhật UI ở trang chủ
-      function updateMonthlyScheduleBox() {
-        const container = document.getElementById("monthly-schedule-list");
-
-        const days = Object.keys(monthlySchedules);
-
-        if (days.length === 0) {
-          container.innerHTML = `<p style="opacity: .6;">Chưa có lịch trình nào được thêm.</p>`;
-          return;
+        const track = document.getElementById('sliderTrack');
+        
+        function moveSlider() {
+            // Thêm hiệu ứng chuyển động
+            track.style.transition = 'transform 0.8s ease-in-out';
+            // Dịch sang trái 50% (tương ứng 1 hình)
+            track.style.transform = 'translateX(-50%)';
         }
 
-        let html = "";
+        track.addEventListener('transitionend', () => {
+            // Khi chạy xong, đưa hình đầu tiên xuống cuối
+            track.appendChild(track.firstElementChild);
+            // Reset vị trí ngay lập tức (không có hiệu ứng)
+            track.style.transition = 'none';
+            track.style.transform = 'translateX(0)';
+            
+            // Buộc trình duyệt vẽ lại (Reflow) để nhận transition lần sau
+            setTimeout(() => {
+                track.style.transition = 'transform 0.8s ease-in-out';
+            });
+        });
 
-        days.sort((a, b) => Number(a) - Number(b)); // sắp xếp theo ngày
+        // Chạy tự động mỗi 3.5 giây
+        setInterval(moveSlider, 3500);
 
-        days.forEach((day) => {
-          html += `<h4 style="color:#007777; margin:10px 0 5px;">Ngày ${day}</h4>`;
+            // Object lưu toàn bộ lịch của tháng
+        let monthlySchedules = JSON.parse(localStorage.getItem("schedules") || "{}");
 
-          monthlySchedules[day].forEach((item) => {
-            html += `
+        // Cập nhật UI ở trang chủ
+        function updateMonthlyScheduleBox() {
+            const container = document.getElementById("monthly-schedule-list");
+
+            const days = Object.keys(monthlySchedules);
+
+            if (days.length === 0) {
+                container.innerHTML = `<p style="opacity: .6;">Chưa có lịch trình nào được thêm.</p>`;
+                return;
+            }
+
+            let html = "";
+
+            days.sort((a, b) => Number(a) - Number(b)); // sắp xếp theo ngày
+
+            days.forEach(day => {
+                html += `<h4 style="color:#007777; margin:10px 0 5px;">Ngày ${day}</h4>`;
+
+                monthlySchedules[day].forEach(item => {
+                    html += `
                         <p>
                             <strong>${item.time}</strong> – ${item.text}
                         </p>
                     `;
-          });
-        });
+                });
+            });
 
-        container.innerHTML = html;
-      }
-
-      // Gọi khi load trang
-      updateMonthlyScheduleBox();
-
-      function renderMonthlySchedulePanel() {
-        const box = document.getElementById("monthly-schedule-list");
-        if (!box) return;
-
-        let all = JSON.parse(localStorage.getItem("monthlySchedules")) || [];
-
-        if (all.length === 0) {
-          box.innerHTML = `<p style="opacity: 0.6;">Chưa có lịch trình nào được thêm.</p>`;
-          return;
+            container.innerHTML = html;
         }
 
-        let html = "";
+        // Gọi khi load trang
+        updateMonthlyScheduleBox();
 
-        all.forEach((item) => {
-          html += `
+        function renderMonthlySchedulePanel() {
+            const box = document.getElementById('monthly-schedule-list');
+            if (!box) return;
+
+            let all = JSON.parse(localStorage.getItem('monthlySchedules')) || [];
+
+            if (all.length === 0) {
+                box.innerHTML = `<p style="opacity: 0.6;">Chưa có lịch trình nào được thêm.</p>`;
+                return;
+            }
+
+            let html = "";
+
+            all.forEach(item => {
+                html += `
                     <div style="
                         padding: 8px 10px;
                         background: white;
@@ -579,21 +527,25 @@
                         <br> ${item.text}
                     </div>
                 `;
+            });
+
+            box.innerHTML = html;
+        }
+
+        window.addEventListener("load", () => {
+
+            // Khôi phục trong lịch
+            let all = JSON.parse(localStorage.getItem('monthlySchedules')) || [];
+            all.forEach(item => {
+                renderTagInCalendar(item.day, item.text, item.time);
+            });
+
+            // Khôi phục ô bên phải
+            renderMonthlySchedulePanel();
         });
 
-        box.innerHTML = html;
-      }
 
-      window.addEventListener("load", () => {
-        // Khôi phục trong lịch
-        let all = JSON.parse(localStorage.getItem("monthlySchedules")) || [];
-        all.forEach((item) => {
-          renderTagInCalendar(item.day, item.text, item.time);
-        });
-
-        // Khôi phục ô bên phải
-        renderMonthlySchedulePanel();
-      });
     </script>
-  </body>
+
+</body>
 </html>
